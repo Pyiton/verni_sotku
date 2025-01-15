@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уведомления</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        // Добавление нового должника в форму
+        function addDebtor() {
+            const list = document.getElementById('borrowers-list'); // Контейнер для должников
+            const newDebtor = document.createElement('div'); // Создаем новый блок
+            newDebtor.className = 'borrowers';
+
+            newDebtor.innerHTML = `
+                <label for="borrower">Должник:</label>
+                <select name="borrowers[]" required>
+                    {% for client in all_clients %}
+                    <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="amount">Сумма:</label>
+                <input type="number" name="amounts[]" step="1" placeholder="Сумма долга" required>
+            `;
+
+            list.appendChild(newDebtor); // Добавляем блок в контейнер
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Создание группового долга</h1>
+        <!-- Комментарий к долгу -->
+
+
+        <!-- Должники -->
+        <!-- Форма для создания группового долга -->
+        <form action="{{ url_for('create_group_debt') }}" method="POST" enctype="multipart/form-data">
+            <label for="debt_comm">Комментарий к долгу:</label>
+            <input type="text" id="debt_comm" name="debt_comm" placeholder="Введите комментарий (необязательно)">
+            <h3>Добавьте должников:</h3>
+            <div id="borrowers-list">
+                <!-- Это статический блок должника -->
+                <div class="borrowers">
+                    <label for="borrower">Должник:</label>
+                    <select name="borrowers[]" required>
+                        {% for client in all_clients %}
+                        <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="amount">Сумма:</label>
+                    <input type="number" name="amounts[]" step="1" placeholder="Сумма долга" required>
+                </div>
+            </div>
+            <!-- Кнопка для добавления еще одного должника -->
+
+
+            <button type="submit" class="btn btn-add-borrower" onclick="addDebtor()">Добавить должника</button>
+
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-register">Создать долг</button>
+                <a href="/" class="btn btn-login">Отмена</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

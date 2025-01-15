@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Закрытие долгов</h1>
+
+        <form method="post" action="{{ url_for('close_debt') }}">
+            <div class="table-container">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Кто дал</th>
+                            <th>Сумма долга</th>
+                            <th>Возвращено</th>
+                            <th>Остаток</th>
+                            <th>Дата создания</th>
+                            <th>Комментарий</th>
+                            <th>Выбрать</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for debt in debts %}
+                        <tr>
+                            <td>{{ debt.debter.client_name }}</td>
+                            <td>{{ debt.debt_amount }}</td>
+                            <td>{{ debt.debt_amount_return }}</td>
+                            <td>{{ debt.debt_amount - debt.debt_amount_return }}</td>
+                            <td>{{ debt.create_dttm.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ debt.debt_comm or "Нет" }}</td>
+                            <td>
+                                <input type="radio" name="debt_id" value="{{ debt.debt_id }}" required>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+                <label for="payment_amount">Введите сумму для оплаты:</label>
+                <input type="number" name="payment_amount" id="payment_amount" min="1" required>
+
+                 <div class="button-container">
+                    <button type="submit" class="btn btn-register">Внести оплату</button>
+                    <a href="/" class="btn btn-login">Отмена</a>
+                </div>
+
+        </form>
+
+
+               <!-- Выводим сообщения о статусе (например, ошибка или успех) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                {% if category == 'error' %}  <!-- Выводим только ошибки -->
+                  <li class="flash-{{ category }}">{{ message }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+    </div>
+</body>
+</html>

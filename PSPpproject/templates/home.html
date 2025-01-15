@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стартовая</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" class="text-center">
+            <label>Привет, {{ user.client_name }}! Вы вошли в систему</label>
+            <br>
+
+            <div class="button-container">
+                <a href='/create_debt_give' class="btn btn-login">Дать в долг</a>
+                <a href='/create_debt_get' class="btn btn-login">Взять в долг</a>
+                <a href='/close_debt' class="btn btn-login">Вернуть долг</a>
+            </div>
+            <div class="button-container">
+                <a href='/notifications' class="btn btn-login">Отправить уведомление</a>
+                <a href='/notifications_read' class="btn btn-login">Прочитать уведомления</a>
+                <a href='/create_group_debt' class="btn btn-login">Создать групповой долг</a>
+            </div>
+             <h1>Список выданных вами долгов:</h1>
+            <div class="table-container">
+                {% if debts_give %}
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Кто взял</th>
+                            <th>Сумма долга</th>
+                            <th>Сумма возврата</th>
+                            <th>Остаток долга</th>
+                            <th>Дата создания</th>
+                            <th>Дата закрытия</th>
+                            <th>Комментарий</th>
+                            <th>Групповой долг</th>
+                            <th>Приложение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for debt in debts_give %}
+                        <tr>
+                            <td>{{ debt.borrower.client_name }}</td>
+                            <td>{{ debt.debt_amount }}</td>
+                            <td>{{ debt.debt_amount_return }}</td>
+                            <td>{{ debt.debt_amount - debt.debt_amount_return }}</td>
+                            <td>{{ debt.create_dttm.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                {% if debt.close_dttm.strftime('%Y-%m-%d %H:%M') == '5999-01-01 00:00' %}
+                                    Нет
+                                {% else %}
+                                    {{debt.close_dttm.strftime('%Y-%m-%d %H:%M')}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if debt.debt_comm == NULL %}
+                                    Нет
+                                {% else %}
+                                    {{debt.debt_comm}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if debt.debt_group_id == -1 %}
+                                    Нет
+                                {% else %}
+                                    Да
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if debt.addings %}
+                                    {% for adding in debt.addings %}
+                                        <!-- Ссылка вокруг изображения -->
+                                        <a href="{{ url_for('static', filename=adding.adding) }}" target="_blank">
+                                            <img src="{{ url_for('static', filename=adding.adding) }}" alt="Изображение" style="max-width: 150px; max-height: 150px;">
+                                        </a>
+                                    {% endfor %}
+                                {% else %}
+                                    Нет изображений
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>У вас нет долгов.</p>
+                {% endif %}
+            </div>
+            <h1>Список взятых вами долгов:</h1>
+            <div class="table-container">
+                {% if debts_get %}
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Кто дал</th>
+                            <th>Сумма долга</th>
+                            <th>Сумма возврата</th>
+                            <th>Остаток долга</th>
+                            <th>Дата создания</th>
+                            <th>Дата закрытия</th>
+                            <th>Комментарий</th>
+                            <th>Приложение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for debt in debts_get %}
+                        <tr>
+                            <td>{{ debt.debter.client_name }}</td>
+                            <td>{{ debt.debt_amount }}</td>
+                            <td>{{ debt.debt_amount_return }}</td>
+                            <td>{{ debt.debt_amount - debt.debt_amount_return }}</td>
+                            <td>{{ debt.create_dttm.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                {% if debt.close_dttm.strftime('%Y-%m-%d %H:%M') == '5999-01-01 00:00' %}
+                                    Нет
+                                {% else %}
+                                    {{debt.close_dttm.strftime('%Y-%m-%d %H:%M')}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if debt.debt_comm == NULL %}
+                                    Нет
+                                {% else %}
+                                    {{debt.debt_comm}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if debt.addings %}
+                                    {% for adding in debt.addings %}
+                                        <!-- Ссылка вокруг изображения -->
+                                        <a href="{{ url_for('static', filename=adding.adding) }}" target="_blank">
+                                            <img src="{{ url_for('static', filename=adding.adding) }}" alt="Изображение" style="max-width: 150px; max-height: 150px;">
+                                        </a>
+                                    {% endfor %}
+                                {% else %}
+                                    Нет изображений
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>У вас нет долгов.</p>
+                {% endif %}
+            </div>
+            <a href='/logout' class="btn btn-exit">Выйти</a>
+        </form>
+    </div>
+</body>
+</html>

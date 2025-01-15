@@ -1,0 +1,153 @@
+/* Настройки для страницы */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.text-center{
+    text-align: center;
+}
+
+
+/* Контейнер */
+.container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    overflow: visible;
+}
+
+/* Стили для полей ввода */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Оформление кнопок */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;  /* Небольшое пространство между кнопками */
+    text-align: center;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-width: 120px; /* Чтобы кнопки имели одинаковую ширину */
+}
+
+/* Кнопка "Зарегистрироваться" */
+.btn-register {
+    background-color: #007BFF;
+}
+
+.btn-register:hover {
+    background-color: #0056b3;
+}
+
+/* Кнопка "Войти" */
+.btn-login {
+    background-color: #4CAF50;
+}
+
+.btn-login:hover {
+    background-color: #2e8b57;
+}
+
+/* Кнопка "Добавить должника" */
+.btn-add-borrower {
+    background-color: #f0ad4e; /* Оранжевый цвет для выделения */
+    color: #ffffff;
+}
+
+.btn-add-borrower:hover {
+    background-color: #ec971f; /* Более насыщенный оранжевый при наведении */
+}
+
+.btn-exit {
+    background-color: #af4c4f;
+}
+
+.btn-exit:hover {
+    background-color: #8b2e3c;
+}
+
+/* Контейнер для кнопок, чтобы кнопки выровнялись по горизонтали */
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Располагаем кнопки на одной линии с равными отступами */
+    margin-top: 10px;
+    z-index: 10;
+}
+
+
+ul {
+    list-style-type: none; /* Убираем маркеры списка */
+    padding: 0;            /* Убираем отступы */
+  }
+
+  .flash-error {
+    color: red;            /* Пример стиля для ошибки */
+    font-weight: bold;
+  }
+
+  .flash-success {
+    color: green;          /* Пример стиля для успеха */
+    font-weight: bold;
+  }
+
+
+label {
+  margin-top: 20px;    /* Задаём отступ сверху */
+  display: block;      /* Превращаем <label> в блочный элемент для управления вертикальными отступами */
+}
+
+
+
+.table-container {
+    max-height: 200px; /* Задаем ограничение по высоте для прокрутки */
+    overflow-y: auto; /* Прокрутка по вертикали */
+    border: 3px solid #ccc; /* Добавим границу для красоты */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Убираем пробелы между ячейками */
+}
+
+/* Фиксируем заголовок на месте */
+thead {
+    background-color: #f2f2f2;
+    position: sticky; /* Заголовок остаётся видимым */
+    top: 0; /* На самом верху скролла */
+    z-index: 2; /* Поверх содержимого таблицы */
+}
+
+/* Стили для ячеек */
+/*th, td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap; /* Убираем перенос текста внутри ячейки */
+/*}

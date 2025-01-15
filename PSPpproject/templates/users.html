@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Список зарегистрированных пользователей</h1>
+        <ul class="text-left">
+            {% for user in users %}
+                <li>{{ user.client_id }}: Имя: "{{ user.client_name }}", Номер: "{{ user.phone }}", Ник: "{{ user.tg_nik }}"</li>
+            {% endfor %}
+        </ul>
+        <a href="/">Назад на главную</a>
+    </div>
+</body>
+</html>

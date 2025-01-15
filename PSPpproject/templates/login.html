@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form method="POST">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" name="username" id="username" required>
+            <br>
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" id="password" required>
+            <br>
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-login">Войти</button>
+                <a href="/register" class="btn btn-register">Зарегистрироваться</a>
+            </div>
+        </form>
+
+               <!-- Выводим сообщения о статусе (например, ошибка или успех) -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                {% if category == 'error' %}  <!-- Выводим только ошибки -->
+                  <li class="flash-{{ category }}">{{ message }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

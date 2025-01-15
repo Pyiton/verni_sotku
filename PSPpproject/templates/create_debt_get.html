@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form action="/create_debt_get" method="post" enctype="multipart/form-data">
+            <label for="debt_amount">Сумма долга:</label>
+            <input type="number" name="debt_amount" id="debt_amount" required>
+            <br>
+            <label for="debt_comm">Комментарий (опционально):</label>
+            <input type="text" name="debt_comm" id="debt_comm">
+            <br>
+            <label for="debter_id">Выберите имя кредитора:</label>
+            <select name="debter_id" id="debter_id" required>
+                {% for client in all_clients %}
+                <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="adding">Прикрепить изображение (опционально):</label>
+            <input type="file" name="adding" id="adding" accept="image/*">
+            <br>
+            <div class="button-container">
+                <button type="submit" class="btn btn-register">Взять в долг</button>
+                <a href="/" class="btn btn-login">Отмена</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+

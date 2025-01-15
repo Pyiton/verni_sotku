@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стартовая</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" class="text-center">
+             <h1>Список уведомлений:</h1>
+            <div class="table-container">
+                {% if debts_get %}
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Кто дал</th>
+                            <th>Сумма долга</th>
+                            <th>Остаток долга</th>
+                            <th>Дата создания</th>
+                            <th>Дата закрытия</th>
+                            <th>Уведомления</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for debt in debts_get %}
+                        <tr>
+                            <td>{{ debt.debter.client_name }}</td>
+                            <td>{{ debt.debt_amount }}</td>
+                            <td>{{ debt.debt_amount - debt.debt_amount_return }}</td>
+                            <td>{{ debt.create_dttm.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>
+                                {% if debt.close_dttm.strftime('%Y-%m-%d %H:%M') == '5999-01-01 00:00' %}
+                                    Нет
+                                {% else %}
+                                    {{debt.close_dttm.strftime('%Y-%m-%d %H:%M')}}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if debt.notifications %}
+                                    {% for notification in debt.notifications %}
+                                        {{notification.send_dttm.strftime('%Y-%m-%d %H:%M')}}: {{notification.notification_text }}<br>
+                                    {% endfor %}
+                                {% else %}
+                                    Нет уведомлений
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>У вас нет уведомлений</p>
+                {% endif %}
+            </div>
+            <a href="/" class="btn btn-login">На главную</a>
+        </form>
+    </div>
+</body>
+</html>
